@@ -266,6 +266,16 @@ namespace e57
          // so current hungriness level is reflected.
          uint64_t earliestPacketLogicalOffset = earliestPacketNeededForInput();
 
+         if ( progress_callback_ )
+         {
+            if ( earliestPacketLogicalOffset == UINT64_MAX )
+            {
+               progress_callback_( 100 );
+               return;
+            }
+            progress_callback_( ( 100 * earliestPacketLogicalOffset ) / sectionEndLogicalOffset_ );
+         }
+
          // If nobody's hungry, we are done with the read
          if ( earliestPacketLogicalOffset == UINT64_MAX )
          {
@@ -274,11 +284,6 @@ namespace e57
 
          // Feed packet to the hungry decoders
          feedPacketToDecoders( earliestPacketLogicalOffset );
-
-         if ( progress_callback_ )
-         {
-            progress_callback_( ( 100 * earliestPacketLogicalOffset ) / sectionEndLogicalOffset_ );
-         }
       }
 
       // Verify that each channel produced the same number of records
