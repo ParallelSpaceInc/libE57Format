@@ -195,6 +195,11 @@ unsigned CompressedVectorReader::read()
    return impl_->read();
 }
 
+void CompressedVectorReader::SetProgressCallback( std::function<void( const int )> callback )
+{
+   impl_->ProgressCallback( callback );
+}
+
 /*!
 @brief Request transfer of block of data from CompressedVectorNode into given destination buffers.
 

@@ -274,6 +274,11 @@ namespace e57
 
          // Feed packet to the hungry decoders
          feedPacketToDecoders( earliestPacketLogicalOffset );
+
+         if ( progress_callback_ )
+         {
+            progress_callback_( ( 100 * earliestPacketLogicalOffset ) / sectionEndLogicalOffset_ );
+         }
       }
 
       // Verify that each channel produced the same number of records
@@ -298,6 +303,11 @@ namespace e57
 
       // Return number of records transferred to each dbuf.
       return outputCount;
+   }
+
+   void CompressedVectorReaderImpl::ProgressCallback( std::function<void( const int )> callback )
+   {
+      progress_callback_ = callback;
    }
 
    uint64_t CompressedVectorReaderImpl::earliestPacketNeededForInput() const

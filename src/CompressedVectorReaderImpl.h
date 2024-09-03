@@ -28,6 +28,8 @@
 
 #include "DecodeChannel.h"
 
+#include <functional>
+
 namespace e57
 {
    class DataPacket;
@@ -50,6 +52,7 @@ namespace e57
 #ifdef E57_ENABLE_DIAGNOSTIC_OUTPUT
       void dump( int indent = 0, std::ostream &os = std::cout );
 #endif
+      void ProgressCallback( std::function<void( const int )> callback );
 
    private:
       void checkImageFileOpen( const char *srcFileName, int srcLineNumber,
@@ -75,5 +78,7 @@ namespace e57
       uint64_t recordCount_; /// number of records written so far
       uint64_t maxRecordCount_;
       uint64_t sectionEndLogicalOffset_;
+
+      std::function<void( const int )> progress_callback_;
    };
 }

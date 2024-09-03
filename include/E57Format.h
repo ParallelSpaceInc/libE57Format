@@ -33,6 +33,7 @@
 
 #include <cfloat>
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <vector>
 
@@ -426,6 +427,9 @@ public:                                                                         
 
       unsigned read();
       unsigned read( std::vector<SourceDestBuffer> &dbufs );
+
+      void SetProgressCallback( std::function<void( const int )> callback );
+
       void seek( int64_t recordNumber ); // !!! not implemented yet
       void close();
       bool isOpen();
