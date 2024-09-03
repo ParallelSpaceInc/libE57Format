@@ -80,5 +80,6 @@ namespace e57
       uint64_t sectionEndLogicalOffset_;
 
       std::function<void( const int )> progress_callback_;
+      int prev_progress_degree_;
    };
 }
