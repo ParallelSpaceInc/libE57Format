@@ -195,9 +195,9 @@ unsigned CompressedVectorReader::read()
    return impl_->read();
 }
 
-void CompressedVectorReader::SetProgressCallback( std::function<void( const int )> callback )
+void CompressedVectorReader::set_callback( std::function<void( const size_t, const size_t )> callback )
 {
-   impl_->ProgressCallback( callback );
+   impl_->set_callback( callback );
 }
 
 /*!

@@ -268,18 +268,17 @@ namespace e57
 
          // If nobody's hungry, we are done with the read
          if ( earliestPacketLogicalOffset == UINT64_MAX )
-         {
-            progress_callback_( 100 );
+         { 
+            if (callback_) 
+            {
+               callback_( sectionEndLogicalOffset_ , sectionEndLogicalOffset_ );
+            }
             break;
          }
 
-         if ( progress_callback_ )
+         if ( callback_ )
          {  
-            int cur_progress_degree_ = ( 100 * earliestPacketLogicalOffset ) / sectionEndLogicalOffset_;
-            if(prev_progress_degree_!=cur_progress_degree_) {
-               progress_callback_(cur_progress_degree_);
-               prev_progress_degree_ = ( 100 * earliestPacketLogicalOffset ) / sectionEndLogicalOffset_ ;
-            }
+            callback_(earliestPacketLogicalOffset, sectionEndLogicalOffset_);
          }
 
          // Feed packet to the hungry decoders
@@ -309,9 +308,9 @@ namespace e57
       return outputCount;
    }
 
-   void CompressedVectorReaderImpl::ProgressCallback( std::function<void( const int )> callback )
+   void CompressedVectorReaderImpl::set_callback( std::function<void( const size_t, const size_t )> callback )
    {
-      progress_callback_ = callback;
+      callback_ = callback;
    }
 
    uint64_t CompressedVectorReaderImpl::earliestPacketNeededForInput() const

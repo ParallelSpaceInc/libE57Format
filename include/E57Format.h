@@ -428,7 +428,7 @@ public:                                                                         
       unsigned read();
       unsigned read( std::vector<SourceDestBuffer> &dbufs );
 
-      void SetProgressCallback( std::function<void( const int )> callback );
+      void set_callback( std::function<void( const size_t, const size_t )> callback );
 
       void seek( int64_t recordNumber ); // !!! not implemented yet
       void close();
@@ -445,6 +445,8 @@ public:                                                                         
       explicit CompressedVectorReader( std::shared_ptr<CompressedVectorReaderImpl> ni );
 
       E57_INTERNAL_ACCESS( CompressedVectorReader )
+
+      std::function<void( const size_t, const size_t)> callback_;
 
    protected:
       std::shared_ptr<CompressedVectorReaderImpl> impl_;

@@ -52,7 +52,7 @@ namespace e57
 #ifdef E57_ENABLE_DIAGNOSTIC_OUTPUT
       void dump( int indent = 0, std::ostream &os = std::cout );
 #endif
-      void ProgressCallback( std::function<void( const int )> callback );
+      void set_callback( std::function<void( const size_t, const size_t )> callback );
 
    private:
       void checkImageFileOpen( const char *srcFileName, int srcLineNumber,
@@ -79,7 +79,6 @@ namespace e57
       uint64_t maxRecordCount_;
       uint64_t sectionEndLogicalOffset_;
 
-      std::function<void( const int )> progress_callback_;
-      int prev_progress_degree_;
+      std::function<void( const size_t, const size_t )> callback_;
    };
 }
